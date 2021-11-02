@@ -1,4 +1,5 @@
-const User = require('../models/User')
+const User = require('../models/User');
+const bcryptjs = require('bcryptjs');
 
 const resolvers = {
     Query: {
@@ -11,8 +12,10 @@ const resolvers = {
             const userAlreadyExist = await User.findOne({email});
             if(userAlreadyExist) throw new Error("User already exist");
            // Hash password
-           // Save on db
+            const salt = await bcryptjs.getSalt(10);
+            input.password = await bcryptjs.hash
 
+           // Save on db
            try {
                const user = new User(input);
                user.save();
